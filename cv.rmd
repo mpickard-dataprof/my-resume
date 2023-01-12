@@ -1,0 +1,200 @@
+---
+title: "Matthew D. Pickard's CV"
+author: Matthew D. Pickard
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+output:
+  pagedown::html_resume:
+    css: ['resume.css']
+    self_contained: true
+---
+
+```{r}
+datadrivencv::use_datadriven_cv(
+  full_name = "Matt Pickard",
+  data_location = "https://docs.google.com/spreadsheets/d/10kbHQ5TYIrP99DQTpzbP6vju2TOR7i6_YaRDOtqP_as/edit#gid=917338460",
+  pdf_location = "https://github.com/nstrayer/cv/raw/master/strayer_cv.pdf",
+  html_location = "nickstrayer.me/cv/",
+  source_location = "https://github.com/nstrayer/cv"
+)
+```
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+
+library(magrittr) # For the pipe
+source("cv_printing_functions.r")
+
+# Read in all data and initialize a CV printer object
+CV <- create_CV_object(
+  data_location = "https://docs.google.com/spreadsheets/d/10kbHQ5TYIrP99DQTpzbP6vju2TOR7i6_YaRDOtqP_as/edit?usp=sharing",  
+  pdf_mode = params$pdf_mode
+)
+
+```
+
+
+```{r}
+# When in pdf export mode the little dots are unaligned, so fix that with some conditional CSS.
+if(params$pdf_mode) {
+    cat("
+<style>
+:root{
+  --decorator-outer-offset-left: -6.5px;
+}
+</style>")
+}
+```
+
+
+
+Aside
+================================================================================
+
+<!-- Swap image with your preferred logo -->
+```{r out.width = '100%', out.extra="style='margin-left -25px; margin-bottom:25px; transform:rotate(90deg);'"}
+#![logo](photo/SelfPortrait.jpg){width=100%}
+knitr::include_graphics("photo/SelfPortrait.jpg")
+```
+
+
+
+```{r}
+if(params$pdf_mode){
+  cat("")
+} else {
+  cat("")
+}
+```
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_contact_info()
+```
+
+
+
+Technical Skills {#skills}
+--------------------------------------------------------------------------------
+```{r}
+CV %>% print_skill_bars()
+```
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+Made with the [**pagedown**](https://github.com/rstudio/pagedown) and [**datadrivencv**](https://github.com/nstrayer/datadrivencv) R packages. 
+
+Last updated on `r Sys.Date()`.
+
+
+
+
+Main
+================================================================================
+
+Matthew D. Pickard {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+# Note the special double pipe so we modify the CV object in place
+CV %<>% print_text_block("intro") 
+```
+
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('education')
+```
+
+
+Academic Positions {data-icon=university}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('academic_positions')
+```
+
+<br>
+<br>
+
+Industry Experience {data-icon=toolbox}
+--------------------------------------------------------------------------------
+
+::: aside
+```{r}
+CV %<>% print_text_block('industry_experience_aside')
+```
+:::
+
+```{r}
+CV %<>% print_section('industry_positions')
+```
+
+
+Software Projects {data-icon=keyboard}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('software_projects')
+```
+
+
+Courses Taught {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------
+
+::: aside
+```{r}
+CV %<>% print_text_block('teaching_experience_aside')
+```
+:::
+
+```{r}
+CV %<>% print_section('courses_taught')
+```
+
+
+Trainings Taught {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------
+
+::: aside
+```{r}
+CV %<>% print_text_block('training_aside')
+```
+:::
+
+```{r}
+CV %<>% print_section('trainings_provided')
+```
+
+
+Publications {data-icon=scroll}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('academic_articles')
+```
+
+
+Service {data-icon=user-tie}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('service')
+```
+
+
+
+
+
